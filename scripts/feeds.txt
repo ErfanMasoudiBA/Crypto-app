@@ -1,0 +1,12 @@
+# English crypto/markets RSS
+https://www.coindesk.com/arc/outboundfeeds/rss/
+https://cointelegraph.com/rss
+https://cryptoslate.com/feed/
+https://decrypt.co/feed
+https://feeds.reuters.com/reuters/businessNews
+
+# Persian crypto/technology RSS
+https://www.arzdigital.com/feed/
+https://coiniran.com/feed/
+https://fa.crypto.news/feed/
+https://iraniunit.com/feed/
