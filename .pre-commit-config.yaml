@@ -1,0 +1,36 @@
+repos:
+  - repo: https://github.com/psf/black
+    rev: 24.8.0
+    hooks:
+      - id: black
+        language_version: python3.11
+        files: ^backend/.*\.py$
+
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.6.8
+    hooks:
+      - id: ruff
+        args: ["--fix"]
+        files: ^backend/.*\.py$
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+        files: ^backend/.*\.py$
+
+  - repo: local
+    hooks:
+      - id: dart-format
+        name: dart format
+        entry: bash -lc 'cd flutter_app && dart format --set-exit-if-changed lib test'
+        language: system
+        files: ^flutter_app/(lib|test)/.*\.(dart)$
+
+      - id: flutter-analyze
+        name: flutter analyze
+        entry: bash -lc 'cd flutter_app && flutter analyze'
+        language: system
+        pass_filenames: false
+        files: ^flutter_app/.*
+

@@ -189,9 +189,16 @@ pytest backend/tests/
 
 The Flutter app includes:
 - **Home Page**: Navigation and quick access
-- **Crypto List**: Paginated cryptocurrency dashboard
-- **Settings**: Configuration and connectivity testing
+- **Crypto List**: Paginated cryptocurrency dashboard with infinite scroll
+- **Settings**: Configuration, connectivity testing, and persisted preferences
 - **Speech-to-Text**: Voice input capabilities
+
+Add screenshots/GIFs to `flutter_app/assets/` and reference here, for example:
+
+```markdown
+![Home](flutter_app/assets/screenshots/home.png)
+![Crypto List](flutter_app/assets/screenshots/crypto_list.png)
+```
 
 ## 🚀 Deployment
 
@@ -206,6 +213,10 @@ docker-compose up
 - Implement authentication if needed
 - Configure CORS for production domains
 
+### Releases
+- Use semantic versioning for tags/releases (e.g., v0.1.0)
+- Draft release notes summarizing changes (features, fixes, docs)
+
 ## 🤝 Contributing
 
 1. Fork the repository
@@ -213,6 +224,15 @@ docker-compose up
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
+
+### Dev setup
+
+Install pre-commit hooks (format/lint Python and Dart):
+
+```bash
+pip install pre-commit
+pre-commit install
+```
 
 ## 📄 License
 
