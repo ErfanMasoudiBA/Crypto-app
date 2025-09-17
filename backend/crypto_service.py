@@ -8,7 +8,8 @@ and error handling.
 
 import logging
 import time
-from typing import Any, Dict, List
+import os
+from typing import Any, Dict, List, Tuple
 
 import requests
 from fastapi import HTTPException
@@ -18,12 +19,30 @@ from models import CryptoCoin
 # Configure logging
 logger = logging.getLogger(__name__)
 
-# API Constants
-COINGECKO_MARKETS = "https://api.coingecko.com/api/v3/coins/markets"
-PER_PAGE = 250
-MAX_COINS = 1000
-RETRY_DELAY = 15
-REQUEST_DELAY = 5
+# API Constants (can be overridden with environment variables)
+COINGECKO_MARKETS = os.getenv("COINGECKO_MARKETS", "https://api.coingecko.com/api/v3/coins/markets")
+PER_PAGE = int(os.getenv("COINGECKO_PER_PAGE", "250"))
+MAX_COINS = int(os.getenv("COINGECKO_MAX_COINS", "1000"))
+RETRY_DELAY = int(os.getenv("COINGECKO_RETRY_DELAY", "15"))
+REQUEST_DELAY = int(os.getenv("COINGECKO_REQUEST_DELAY", "5"))
+CRYPTO_CACHE_TTL = int(os.getenv("CRYPTO_CACHE_TTL", "60"))  # seconds
+
+# Simple in-memory cache: key -> (timestamp, value)
+_cache: Dict[str, Tuple[float, Any]] = {}
+
+def _cache_get(key: str):
+    now = time.time()
+    entry = _cache.get(key)
+    if not entry:
+        return None
+    ts, value = entry
+    if now - ts > CRYPTO_CACHE_TTL:
+        _cache.pop(key, None)
+        return None
+    return value
+
+def _cache_set(key: str, value: Any):
+    _cache[key] = (time.time(), value)
 
 
 def fetch_coins_from_coingecko() -> List[Dict[str, Any]]:
@@ -36,6 +55,12 @@ def fetch_coins_from_coingecko() -> List[Dict[str, Any]]:
     Raises:
         HTTPException: If API request fails or rate limit is exceeded
     """
+    cache_key = f"top:{MAX_COINS}"
+    cached = _cache_get(cache_key)
+    if cached is not None:
+        logger.info("Serving top coins from cache")
+        return cached
+
     all_coins = []
     page = 1
     
@@ -93,6 +118,7 @@ def fetch_coins_from_coingecko() -> List[Dict[str, Any]]:
         page += 1
         time.sleep(REQUEST_DELAY)  # Delay between requests
     
+    _cache_set(cache_key, all_coins)
     return all_coins
 
 
@@ -123,6 +149,11 @@ def fetch_coins_from_coingecko_paginated(page: int = 1, per_page: int = 10) -> L
         "page": page,
         "sparkline": "false"
     }
+    cache_key = f"page:{page}:per:{per_page}"
+    cached = _cache_get(cache_key)
+    if cached is not None:
+        logger.info("Serving paginated coins from cache")
+        return cached
     
     # Retry logic for rate limiting
     max_retries = 3
@@ -159,6 +190,7 @@ def fetch_coins_from_coingecko_paginated(page: int = 1, per_page: int = 10) -> L
         return []
     
     logger.info(f"Successfully fetched {len(data)} coins for page {page}")
+    _cache_set(cache_key, data)
     return data
 
 

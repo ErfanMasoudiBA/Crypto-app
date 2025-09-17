@@ -9,6 +9,7 @@ import logging
 from typing import Dict, List
 
 from fastapi import Depends, FastAPI, HTTPException, Response
+from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import Session
 
 # Import local modules
@@ -51,6 +52,17 @@ app = FastAPI(
 @app.on_event("startup")
 def on_startup() -> None:
     create_db_and_tables()
+    # CORS configuration (allow from env list or default to all)
+    import os
+    cors_origins_env = os.getenv("CORS_ORIGINS", "*")
+    origins = [o.strip() for o in cors_origins_env.split(",")] if cors_origins_env else ["*"]
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 @app.get("/")

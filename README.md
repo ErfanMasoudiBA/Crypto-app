@@ -1,5 +1,10 @@
 # Crypto Analytics & Sentiment Analysis Platform
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![FastAPI](https://img.shields.io/badge/API-FastAPI-009688)](https://fastapi.tiangolo.com/)
+[![Flutter](https://img.shields.io/badge/App-Flutter-02569B)](https://flutter.dev/)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+
 A comprehensive full-stack application combining cryptocurrency market data with sentiment analysis capabilities. Built with FastAPI backend and Flutter mobile app.
 
 ## 🚀 Features
