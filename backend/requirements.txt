@@ -5,7 +5,9 @@ pydantic>=2.0.0
 requests>=2.31.0
 httpx>=0.24.1
 langdetect>=1.0.9
-googletrans==4.0.0rc1
+# googletrans is optional and imported on-demand for translation
+# Commented out to avoid httpx==0.13.3 pin causing conflicts in CI
+# googletrans==4.0.0rc1
 python-dotenv>=1.0.1
 
 

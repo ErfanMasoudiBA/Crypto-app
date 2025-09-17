@@ -10,7 +10,6 @@ import logging
 from typing import Dict
 
 import requests
-from googletrans import Translator
 from langdetect import DetectorFactory, detect
 from sqlmodel import Session
 
@@ -65,12 +64,14 @@ def analyze_text_sentiment(text: str, session: Session) -> SentimentResult:
         # English or other languages handled with short English rules
         text_for_en = raw_text
         if detected_lang not in ("en", "und"):
+            # Attempt on-demand translation if googletrans is installed; otherwise fallback
             try:
+                from googletrans import Translator  # type: ignore
                 translator = Translator()
                 text_for_en = translator.translate(raw_text, dest="en").text or raw_text
                 logger.info(f"Translated text from {detected_lang} to English")
             except Exception as e:
-                logger.warning(f"Translation failed: {e}")
+                logger.warning(f"Translation unavailable or failed: {e}")
                 text_for_en = raw_text
 
         analysis_dict = rule_analyze_text_en(text_for_en)
@@ -139,7 +140,9 @@ def analyze_via_api(text: str) -> Dict[str, object]:
         else:
             text_for_en = text
             if detected_lang not in ("en", "und"):
+                # Attempt on-demand translation if available
                 try:
+                    from googletrans import Translator  # type: ignore
                     translator = Translator()
                     text_for_en = translator.translate(text, dest="en").text or text
                 except Exception:
