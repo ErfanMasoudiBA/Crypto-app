@@ -1,0 +1,152 @@
+{
+  "backend": [
+    {
+      "id": "be-openai-service",
+      "title": "Integrate OpenAI sentiment service with fallback",
+      "description": "Add an OpenAI-powered sentiment analyzer. Use OPENAI_API_KEY from env. Primary path uses OpenAI; fallback to existing rule-based analysis on errors or when key is missing.",
+      "prd_ref": ["5.2", "5.3", "6", "7"],
+      "priority": "P1",
+      "estimate": "2-3d"
+    },
+    {
+      "id": "be-analyze-endpoint-openai",
+      "title": "Extend /analyze to invoke OpenAI and return label+scores",
+      "description": "Update /analyze response to include model metadata (model name/provider) and scores from OpenAI; preserve schema. Add lang handling and translation before OpenAI call.",
+      "prd_ref": ["7", "5.2", "5.3"],
+      "priority": "P1",
+      "estimate": "1d"
+    },
+    {
+      "id": "be-articles-ingest-openai",
+      "title": "Use OpenAI in /ingest and store sentiment fields",
+      "description": "On article ingest, call OpenAI sentiment, persist label and scores with timestamps. Ensure idempotency by title and add pagination/filtering on /articles.",
+      "prd_ref": ["5.2", "5.3", "7"],
+      "priority": "P1",
+      "estimate": "1-2d"
+    },
+    {
+      "id": "be-dash-distribution",
+      "title": "Add /sentiment/distribution endpoint",
+      "description": "Return counts/percentages of positive/negative/neutral over a time window (query params: from, to).",
+      "prd_ref": ["5.4"],
+      "priority": "P2",
+      "estimate": "0.5d"
+    },
+    {
+      "id": "be-dash-trend",
+      "title": "Add /sentiment/trend endpoint",
+      "description": "Return time-series buckets (e.g., daily) with average sentiment scores and counts for charts.",
+      "prd_ref": ["5.4"],
+      "priority": "P2",
+      "estimate": "1d"
+    },
+    {
+      "id": "be-correlation",
+      "title": "Add /correlation/crypto-sentiment endpoint",
+      "description": "Compute simple correlation between price change and sentiment trend (configurable window) for top coins (approximate).",
+      "prd_ref": ["5.4"],
+      "priority": "P3",
+      "estimate": "1-2d"
+    },
+    {
+      "id": "be-articles-pagination",
+      "title": "Articles listing: pagination and filters",
+      "description": "Extend GET /articles with page, per_page, and optional filters (label, from, to).",
+      "prd_ref": ["5.3"],
+      "priority": "P2",
+      "estimate": "0.5d"
+    },
+    {
+      "id": "be-export-v2",
+      "title": "Export reports (CSV/JSON) endpoints [v2]",
+      "description": "Add export endpoints for article sentiments and aggregated metrics; leave PDF to later.",
+      "prd_ref": ["4", "5.4"],
+      "priority": "P3",
+      "estimate": "1-2d"
+    },
+    {
+      "id": "be-config-openai",
+      "title": "Config: add OPENAI_API_KEY and toggles to .env.example",
+      "description": "Document and load OPENAI_API_KEY, SENTIMENT_PROVIDER=openai|rules, TRANSLATE_BEFORE_ANALYZE=true|false.",
+      "prd_ref": ["12", "6"],
+      "priority": "P1",
+      "estimate": "0.25d"
+    }
+  ],
+  "frontend": [
+    {
+      "id": "fe-news-articles-page",
+      "title": "Add Articles page with ingest + list",
+      "description": "Create Articles screen to ingest a new article (title/content), display list with labels and scores, and pagination.",
+      "prd_ref": ["5.3", "9"],
+      "priority": "P1",
+      "estimate": "1-2d"
+    },
+    {
+      "id": "fe-dashboards",
+      "title": "Dashboards: distribution + trend charts",
+      "description": "Use fl_chart to show a pie chart of sentiment distribution and a line/bar chart of sentiment trend over time (queries backend endpoints).",
+      "prd_ref": ["5.4"],
+      "priority": "P2",
+      "estimate": "1-2d"
+    },
+    {
+      "id": "fe-correlation-view",
+      "title": "Correlation view: price vs sentiment [v2]",
+      "description": "Add a simple view to visualize correlation for selected coins over a window (backend endpoint).",
+      "prd_ref": ["5.4"],
+      "priority": "P3",
+      "estimate": "1d"
+    },
+    {
+      "id": "fe-sentiment-text-tool",
+      "title": "Quick sentiment test UI",
+      "description": "Provide a text input screen to call /analyze and show label + scores; allow copying result.",
+      "prd_ref": ["4", "7"],
+      "priority": "P1",
+      "estimate": "0.5-1d"
+    },
+    {
+      "id": "fe-settings-openai-toggle",
+      "title": "Settings: provider toggle and backend URL",
+      "description": "Add toggle to choose sentiment provider (OpenAI vs Rules), show backend URL, and keep connectivity test; persist in Hive.",
+      "prd_ref": ["5.5", "6"],
+      "priority": "P2",
+      "estimate": "0.5d"
+    },
+    {
+      "id": "fe-crypto-detail",
+      "title": "Crypto details screen with icon and metrics",
+      "description": "Expand dialog to a details screen: icon, rank, price, market cap, 24h change, last updated; room for future sparkline.",
+      "prd_ref": ["4"],
+      "priority": "P3",
+      "estimate": "0.5-1d"
+    }
+  ],
+  "devops": [
+    {
+      "id": "dx-secrets-openai",
+      "title": "Secrets: manage OPENAI_API_KEY for dev/CI",
+      "description": "Document local .env usage; add CI secret mock; ensure tests skip OpenAI when key missing.",
+      "prd_ref": ["6", "12"],
+      "priority": "P1",
+      "estimate": "0.5d"
+    },
+    {
+      "id": "dx-tests-openai-skip",
+      "title": "Tests: skip OpenAI-dependent tests without key",
+      "description": "Mark tests to skip or mock OpenAI calls to keep CI stable without secrets.",
+      "prd_ref": ["11"],
+      "priority": "P1",
+      "estimate": "0.5d"
+    },
+    {
+      "id": "dx-docs-update",
+      "title": "Docs: update README and PRD links",
+      "description": "Align README with OpenAI provider option and new endpoints; reference PRD.",
+      "prd_ref": ["6", "12"],
+      "priority": "P2",
+      "estimate": "0.5d"
+    }
+  ]
+}
