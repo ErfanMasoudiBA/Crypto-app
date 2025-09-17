@@ -12,5 +12,15 @@ services:
     environment:
       - UVICORN_WORKERS=1
 
+  web:
+    image: nginx:alpine
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./flutter_app/build/web:/usr/share/nginx/html:ro
+    restart: unless-stopped
+
 
 

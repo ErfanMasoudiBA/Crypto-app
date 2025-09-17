@@ -207,6 +207,15 @@ Add screenshots/GIFs to `flutter_app/assets/` and reference here, for example:
 docker-compose up
 ```
 
+To serve the Flutter web build via Nginx (after running `flutter build web`):
+
+```bash
+cd flutter_app
+flutter build web
+cd ..
+docker-compose up -d web
+```
+
 ### Production Considerations
 - Configure proper database (PostgreSQL recommended)
 - Set up proper API rate limiting
