@@ -352,6 +352,17 @@ class _CryptoListPageState extends State<CryptoListPage> {
       leading: _buildLeading(crypto),
       title: Row(
         children: [
+          if (crypto.rank != null) ...[
+            Text(
+              '#${crypto.rank}',
+              style: const TextStyle(
+                fontSize: 12,
+                color: Colors.grey,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(width: 8),
+          ],
           Expanded(
             child: Text(
               crypto.name,
