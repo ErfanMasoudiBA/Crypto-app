@@ -22,6 +22,8 @@ jobs:
           pip install pytest
       - name: Run tests
         working-directory: backend
+        env:
+          PYTHONPATH: .
         run: pytest -q
 
 
