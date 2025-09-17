@@ -5,6 +5,7 @@ A lightweight, modular FastAPI application that combines sentiment analysis and 
 ## Features
 
 ### Sentiment Analysis
+
 - **Multilingual Support**: Text sentiment analysis with Persian and English support
 - **Language Detection**: Automatic language detection and translation
 - **Article Management**: Article ingestion, storage, and sentiment analysis
@@ -12,6 +13,7 @@ A lightweight, modular FastAPI application that combines sentiment analysis and 
 - **Database Persistence**: All analyses are stored for future reference
 
 ### Cryptocurrency Data
+
 - **Real-time Market Data**: Fetch top 1000 cryptocurrencies from CoinGecko API
 - **Flexible Queries**: Get top N cryptocurrencies with customizable limits
 - **Comprehensive Data**: Prices, market cap, volume, and 24h changes
@@ -21,11 +23,13 @@ A lightweight, modular FastAPI application that combines sentiment analysis and 
 ## Quick Start
 
 ### 1. Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
 ### 2. Run the API
+
 ```bash
 # Option 1: Using uvicorn directly
 uvicorn main:app --reload --host 127.0.0.1 --port 8000
@@ -38,6 +42,7 @@ python main.py
 ```
 
 ### 3. Access the API
+
 - **API Documentation**: http://127.0.0.1:8000/docs (Interactive Swagger UI)
 - **Alternative Docs**: http://127.0.0.1:8000/redoc (ReDoc)
 - **Health Check**: http://127.0.0.1:8000/
@@ -46,6 +51,7 @@ python main.py
 ## API Endpoints
 
 ### Sentiment Analysis Endpoints
+
 - `POST /analyze` - Analyze text sentiment with language detection
   - **Input**: `{"text": "Your text here"}`
   - **Output**: Sentiment scores, detected language, and confidence
@@ -58,6 +64,7 @@ python main.py
   - **Output**: Contextual bot response
 
 ### Cryptocurrency Endpoints
+
 - `GET /cryptos?page=1&per_page=10` - Get paginated cryptocurrency data
   - **Parameters**: `page` (1+), `per_page` (1-250)
   - **Output**: Paginated list with metadata
@@ -66,6 +73,7 @@ python main.py
   - **Output**: List of top cryptocurrencies
 
 ### System Endpoints
+
 - `GET /` - API status and available endpoints
 - `GET /favicon.ico` - Favicon (returns 204 No Content)
 
@@ -75,11 +83,12 @@ The API uses **SQLite** for data persistence with the following features:
 
 - **Automatic Setup**: Database file (`app.db`) created automatically on first run
 - **Schema Management**: Tables created automatically using SQLModel
-- **Data Models**: 
+- **Data Models**:
   - `Article`: Stores article title, content, and creation timestamp
   - `Analysis`: Stores sentiment analysis results with scores and metadata
 
 ### Database Schema
+
 ```sql
 -- Articles table
 CREATE TABLE article (
@@ -89,7 +98,7 @@ CREATE TABLE article (
     created_at DATETIME NOT NULL
 );
 
--- Analysis table  
+-- Analysis table
 CREATE TABLE analysis (
     id INTEGER PRIMARY KEY,
     text VARCHAR NOT NULL,
@@ -129,7 +138,7 @@ backend/
 - **sentiment_service.py**: Text sentiment analysis and language processing
 - **article_service.py**: Article ingestion, storage, and retrieval
 - **chat_service.py**: Simple chatbot response generation
-- **rule_sentiment*.py**: Rule-based sentiment analysis for different languages
+- **rule_sentiment\*.py**: Rule-based sentiment analysis for different languages
 
 ## Dependencies
 
@@ -143,7 +152,9 @@ backend/
 ## Development
 
 ### Code Quality
+
 The project follows clean code principles:
+
 - **Modular Architecture**: Separated concerns into focused modules
 - **Type Safety**: Full type hints throughout the codebase
 - **Error Handling**: Comprehensive error handling and logging
@@ -151,12 +162,14 @@ The project follows clean code principles:
 - **Testing**: Unit tests for core functionality
 
 ### Adding New Features
+
 1. **Services**: Add new functionality to appropriate service modules
 2. **Models**: Define new data models in `models.py`
 3. **Endpoints**: Add new routes in `main.py`
 4. **Tests**: Write tests in the `tests/` directory
 
 ### Running Tests
+
 ```bash
 # Run all tests
 pytest
@@ -171,14 +184,18 @@ pytest tests/test_api.py
 ## Configuration
 
 ### Environment Variables
+
 The application can be configured using environment variables:
+
 - `DATABASE_URL`: Custom database connection string (default: sqlite:///app.db)
 - `LOG_LEVEL`: Logging level (default: INFO)
 - `API_HOST`: Server host (default: 127.0.0.1)
 - `API_PORT`: Server port (default: 8000)
 
 ### Rate Limiting
+
 Cryptocurrency API calls include built-in rate limiting:
+
 - **Retry Logic**: Exponential backoff on rate limit errors
 - **Request Delay**: 5-second delay between requests
 - **Max Retries**: 3 attempts per request
@@ -186,13 +203,16 @@ Cryptocurrency API calls include built-in rate limiting:
 ## Troubleshooting
 
 ### Common Issues
+
 1. **Import Errors**: Ensure all dependencies are installed: `pip install -r requirements.txt`
 2. **Database Errors**: Delete `app.db` file to recreate the database
 3. **API Rate Limits**: CoinGecko API may rate limit requests; built-in retry logic handles this
 4. **Translation Errors**: Google Translate may occasionally fail; the app falls back gracefully
 
 ### Logs
+
 The application logs important events:
+
 - Server startup and shutdown
 - API requests and responses
 - Database operations
