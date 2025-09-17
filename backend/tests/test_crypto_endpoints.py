@@ -2,7 +2,11 @@ from fastapi.testclient import TestClient
 import types
 
 import main as app_main
+from database import create_db_and_tables
 
+
+# Ensure DB is ready
+create_db_and_tables()
 
 client = TestClient(app_main.app)
 
@@ -35,7 +39,9 @@ def test_get_cryptos_paginated(monkeypatch):
 
     def fake_transform(coin):
         # Minimal transform consistent with models.CryptoCoin
-        return app_main.models.CryptoCoin(
+        from models import CryptoCoin
+
+        return CryptoCoin(
             rank=coin.get("market_cap_rank"),
             symbol=coin.get("symbol", "").upper(),
             id=coin.get("id", ""),
@@ -67,7 +73,8 @@ def test_get_top_cryptos(monkeypatch):
         return _sample_coins_page(page=1, per_page=20)
 
     def fake_transform(coin):
-        return app_main.models.CryptoCoin(
+        from models import CryptoCoin
+        return CryptoCoin(
             rank=coin.get("market_cap_rank"),
             symbol=coin.get("symbol", "").upper(),
             id=coin.get("id", ""),
