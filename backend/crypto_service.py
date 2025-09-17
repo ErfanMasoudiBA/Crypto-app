@@ -213,5 +213,6 @@ def transform_coin_data(coin_data: Dict[str, Any]) -> CryptoCoin:
         market_cap_usd=coin_data.get("market_cap"),
         change_24h_pct=coin_data.get("price_change_percentage_24h"),
         total_volume_usd=coin_data.get("total_volume"),
-        last_updated=coin_data.get("last_updated")
+        last_updated=coin_data.get("last_updated"),
+        image_url=coin_data.get("image")
     )

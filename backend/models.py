@@ -76,6 +76,7 @@ class CryptoCoin(BaseModel):
     change_24h_pct: Optional[float]
     total_volume_usd: Optional[float]
     last_updated: Optional[str]
+    image_url: Optional[str] = None
 
 
 class CryptoResponse(BaseModel):
