@@ -185,21 +185,6 @@ pytest backend/tests/
 - **Demo Mode**: Toggle for offline testing
 - **Platform-specific URLs**: Automatic Android emulator detection
 
-## 📱 Screenshots
-
-The Flutter app includes:
-- **Home Page**: Navigation and quick access
-- **Crypto List**: Paginated cryptocurrency dashboard with infinite scroll
-- **Settings**: Configuration, connectivity testing, and persisted preferences
-- **Speech-to-Text**: Voice input capabilities
-
-Add screenshots/GIFs to `flutter_app/assets/` and reference here, for example:
-
-```markdown
-![Home](flutter_app/assets/screenshots/home.png)
-![Crypto List](flutter_app/assets/screenshots/crypto_list.png)
-```
-
 ## 🚀 Deployment
 
 ### Docker Support
